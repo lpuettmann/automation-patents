@@ -1,7 +1,7 @@
 ---
 title: "Exploring Automation Patents"
 author: "Katja Mann, Lukas Püttmann"
-date: "2 June 2018"
+date: "June 14 2018"
 output: rmarkdown::github_document
 ---
 
