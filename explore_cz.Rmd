@@ -1,0 +1,50 @@
+---
+title: "Commuting Zone Data"
+author: "Katja Mann, Lukas Püttmann"
+date: "June 14 2018"
+output: rmarkdown::github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Load some packages:
+
+```{r libraries}
+library(tidyverse)
+```
+
+Get the two patent datasets and combine them:
+
+```{r load-data, echo = FALSE, warning=FALSE, message=FALSE}
+cz <- read_delim("data/czone_dataset.zip", delim = "\t")
+```
+
+```{r}
+cz %>% 
+  filter(type == "level",
+         assignee == "all",
+         weight == "none") %>% 
+  ggplot(aes(year, autopats, group = czone)) +
+  geom_line(color = "grey30", alpha = 0.3) +
+  theme_minimal()
+```
+
+```{r}
+cz %>% 
+  filter(type == "level",
+         assignee == "all",
+         weight == "none") %>% 
+  ggplot(aes(year, autopats / (autopats + nonautopats), group = czone)) +
+  geom_line(color = "grey30", alpha = 0.3) +
+  theme_minimal()
+```
+
+
+
+
+
+
+
+

@@ -16,12 +16,12 @@ Links:
 
 We keep the following datasets here:
 
-| Name | Format | Level | Years | Rows | Size (approx.) |
+| Name | Format | Level | Years | Rows | Approx. size (zipped) |
 | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- | 
-| `patents1.zip`  | `.csv` | Patents | 1976-2001 | 2,409,118 | 49 MB |
-| `patents2.zip`  | `.csv` | Patents | 2002-2014 | 2,646,518 | 47 MB |
-| `industry_data.zip`  | `.csv` | Industries (SIC 4 digit) | 1976-2014 | 451,620 | 32 MB |
-| `czone_dataset.dta`  | `.dta` | Commuting zones | 1976-2014 | Something big | 34 MB |
+| `patents1.zip`  | `.csv` | Patents | 1976-2001 | 2,409,118 | 44 MB |
+| `patents2.zip`  | `.csv` | Patents | 2002-2014 | 2,646,518 | 43 MB |
+| `industry_data.zip`  | `.csv` | Industries (SIC 4 digit) | 1976-2014 | 451,620 | 12 MB |
+| `czone_dataset.zip`  | `.csv` | Commuting zones | 1976-2014 | 281,580 | 3.4 MB |
 
 
 # What you don't find here
@@ -36,7 +36,7 @@ All datasets cover the period 1976 to 2014 and the regional coverage are the Uni
 
 ## 1. Patent level dataset
 
-Includes all US utility patents and contains the information for every patent if we classify it as automation or not. To construct some variables (`cts`, `cts_wt` and `owner`)
+Includes all US utility patents and contains the information for every patent if we classify it as automation or not. To construct some variables (`cts`, `cts_wt` and `assignee`)
 
 The assignee and citation data is from the [Fung Institute](https://github.com/funginstitute/downloads) and stops in 2010.
 
@@ -68,19 +68,24 @@ We distribute all patents probabilistically to industries where they are created
 - `nb`: Our classification of patents as either "automation" or "rest" according to the Naive Bayes algorithm.
 - `affil`: Two options ("sector of manufacture" and "industry of use")
 - `weight`: Uses either no weights ("none") or weights patents by the number of their citations.
-- `owner`: Four options ("other", "foreigners", "governments" and "universities")
+- `assignee`: Four options ("other", "foreigners", "governments" and "universities")
 - `patents`: Number of patent (equivalents).
 
 Be careful when you use this dataset, as some variables provide subsets to the dataset and some offer alternative datasets:
 - `affil` and `weight` are options you can choose
-- `nb` and `owner` contain the values for subsets of patents. So if, for example, you want to know how many automation patents there are in some industry that are owned by any entity, then you need to sum across the `owner` variable.
+- `nb` and `assignee` contain the values for subsets of patents. So if, for example, you want to know how many automation patents there are in some industry that are owned by any entity, then you need to sum across the `assignee` variable.
 
 ## 3. Commuting zone level dataset
 
 Includes the number of patents that can be used in a US commuting zones.
 
-- `czone`: ...
-- `patents`: ...
+- `cz`: Commuting zone
+- `year`: Grant year
+- `type`: Transformation. Either in absolute levels or transformed as described in paper.
+- `assignee`: Group who is assigned patent, as described above. `all` also contains the the other categories `university and public research`, `foreign` and `government`.
+- `weight`: Citation weights as described above.
+- `autopats`: Automation patents
+- `nonautopats`: All other patents, not described as automation patents.
 
 
 # How to use
@@ -90,10 +95,10 @@ Includes the number of patents that can be used in a US commuting zones.
 Use the [maptile](https://michaelstepner.com/maptile/) program to create maps:
 
 ```stata
-use data/czone_dataset.dta, clear
-rename czone cz
+import delim data/czone_dataset.csv
+keep if type == "level" & assignee == "all" & weight == "none"
 
-maptile autopats_use if year==1976, geography(cz) conus nquantiles(4) /// 
+maptile autopats if year==1976, geography(cz) conus nquantiles(4) /// 
 	savegraph(figures\map_1976.png) replace legdecimals(0) resolution(0.5) /// 
 	twopt(title(Automation patents: 1976))
 ```
