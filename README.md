@@ -54,7 +54,7 @@ The assignee and citation data is from the [Fung Institute](https://github.com/f
 - `length_pattext`: Length of patent text as measured by the number of lines in [Google](https://www.google.com/googlebooks/uspto-patents-grants-text.html)'s text files. Number is missing for every last patent in the weekly files.
 - `cts`: Number of citations using Fung Institute data.
 - `cts_wt`: Number of weighted citations. See paper for explanation.
-- `owner`: The group of patent owner ("US firm", "foreigners", "governments", "universities" or missing/"NA"). We use the Fung Institute data to identify US firms, foreigners and governments and our own coding to find universities. 
+- `assignee`: The group of patent assignee ("US firm", "foreigners", "governments", "universities" or missing/"NA"). We use the Fung Institute data to identify US firms, foreigners and governments and our own coding to find universities. 
 
 
 ## 2. Industry level dataset
