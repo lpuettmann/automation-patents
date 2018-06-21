@@ -107,7 +107,7 @@ maptile autopats if year==1976, geography(cz) conus nquantiles(4) ///
 
 ## R
 
-See [here](/explore.md) ([codes](https://github.com/lpuettmann/dev-automation-patents/blob/master/explore.Rmd)) for more examples, figures and usage recommendations.
+See [here](/explore.md) ([codes](https://github.com/lpuettmann/automation-patents/blob/master/explore.Rmd)) for more examples, figures and usage recommendations.
 
 # License
 
