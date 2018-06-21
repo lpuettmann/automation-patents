@@ -62,12 +62,12 @@ The assignee and citation data is from the [Fung Institute](https://github.com/f
 We distribute all patents probabilistically to industries where they are created ("sector of manufacture") and where they are likely to be used ("industry of use"). See paper and the links above for explanations.
 
 - `year`: Year
-- `sic1`: Top-level SIC
-- `sic1_name`: Name of top-level SIC ("Agriculture", "Mining" and so on)
-- `sic`: Four-digit SIC number according to the 1987 rules.
+- `sic1`: First digit of SIC number
+- `sic1_name`: Name of SIC division ("Agriculture", "Mining" and so on)
+- `sic`: Four-digit SIC number (1987 SIC classification).
 - `nb`: Our classification of patents as either "automation" or "rest" according to the Naive Bayes algorithm.
 - `affil`: Two options ("sector of manufacture" and "industry of use")
-- `weight`: Uses either no weights ("none") or weights patents by the number of their citations.
+- `weight`: Uses either no weights ("none") or weigh patents by the number of their citations.
 - `assignee`: Four options ("other", "foreigners", "governments" and "universities")
 - `patents`: Number of patent (equivalents).
 
