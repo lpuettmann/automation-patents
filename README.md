@@ -43,18 +43,18 @@ The assignee and citation data is from the [Fung Institute](https://github.com/f
 - `year`: Grant year.
 - `week`: Identifies weekly files that patent was published in.
 - `patent`: Patent number (7 characters)
-- `automat`: Classification as automation patent after excluding patents.
-- `raw_automat`: Classification as automation patent before excluding patents.
-- `excl`: We exclude many chemical or pharmaceutical patents in our empirical analysis. See paper.
-- `post_yes`: The posterior probability that a patent 
-- `post_no`: The posterior probability that a patent 
+- `automat`: Classification as automation patent after excluding patents (see paper for details).
+- `raw_automat`: Classification as automation patent before excluding patents (see paper for details).
+- `excl`: Excluded patents. We exclude many chemical or pharmaceutical patents in our empirical analysis, see paper for details.
+- `post_yes`: The posterior probability that a patent is an automation patent.
+- `post_no`: The posterior probability that a patent is an automation patent.
 - `hjt`: Hall-Jaffe-Trajtenberg top-level categories
 - `hjt_name`: Hall-Jaffe-Trajtenberg subcategories by name
 - `uspc_primary`: Every patent is assigned one or several USPC numbers. This reports the first such number that is written in the patent documents. This is not the number we use to match patents to industries, as we use IPC numbers for this and it requires an additional dataset of *all* of patents' IPC numbers. 
 - `length_pattext`: Length of patent text as measured by the number of lines in [Google](https://www.google.com/googlebooks/uspto-patents-grants-text.html)'s text files. Number is missing for every last patent in the weekly files.
 - `cts`: Number of citations using Fung Institute data.
 - `cts_wt`: Number of weighted citations. See paper for explanation.
-- `assignee`: The group of patent assignee ("US firm", "foreigners", "governments", "universities" or missing/"NA"). We use the Fung Institute data to identify US firms, foreigners and governments and our own coding to find universities. 
+- `assignee`: The group of patent assignee ("US firm", "foreigners", "governments", "universities" or missing/"NA"). We use the Fung Institute data to identify US firms, foreigners and governments and our own coding to find universities and public research institutes. 
 
 
 ## 2. Industry level dataset
