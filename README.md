@@ -50,7 +50,7 @@ The assignee and citation data is from the [Fung Institute](https://github.com/f
 - `post_no`: The posterior probability that a patent is an automation patent.
 - `hjt`: Hall-Jaffe-Trajtenberg top-level categories
 - `hjt_name`: Hall-Jaffe-Trajtenberg subcategories by name
-- `uspc_primary`: Every patent is assigned one or several USPC numbers. This reports the first such number that is written in the patent documents. This is not the number we use to match patents to industries, as we use IPC numbers for this and it requires an additional dataset of *all* of patents' IPC numbers. 
+- `uspc_primary`: Every patent is assigned one or several USPC numbers. This reports the first USPC number that is written in the patent documents. We use this number to assign Hall-Jaffe-Trajtenberg categories. This is not the number we use to match patents to industries: We use the complete list of patents' IPC numbers for this (not contained in this dataset). 
 - `length_pattext`: Length of patent text as measured by the number of lines in [Google](https://www.google.com/googlebooks/uspto-patents-grants-text.html)'s text files. Number is missing for every last patent in the weekly files.
 - `cts`: Number of citations using Fung Institute data.
 - `cts_wt`: Number of weighted citations. See paper for explanation.
@@ -59,11 +59,11 @@ The assignee and citation data is from the [Fung Institute](https://github.com/f
 
 ## 2. Industry level dataset
 
-We distribute all patents probabilistically to industries where they are created ("sector of manufacture") and where they are likely to be used ("industry of use"). See paper and the links above for explanations.
+We distribute all patents probabilistically to industries where they are created ("sector of manufacture") and where they are likely to be used ("industry of use"). See paper and the links above for explanations. Industries are defined according to [SIC 1987](https://www.osha.gov/pls/imis/sic_manual.html).
 
 - `year`: Year
 - `sic1`: First digit of SIC number
-- `sic1_name`: Name of SIC division ("Agriculture", "Mining" and so on)
+- `sic_div`: Name of SIC division ("Agriculture", "Mining" and so on)
 - `sic`: Four-digit SIC number (1987 SIC classification).
 - `nb`: Our classification of patents as either "automation" or "rest" according to the Naive Bayes algorithm.
 - `affil`: Two options ("sector of manufacture" and "industry of use")
