@@ -41,16 +41,16 @@ Includes all US utility patents and contains the information for every patent if
 The assignee and citation data is from the [Fung Institute](https://github.com/funginstitute/downloads) and stops in 2010.
 
 - `year`: Grant year.
-- `week`: Identifies weekly files that patent was published in.
+- `week`: Identifies the weekly files that the patent was published in.
 - `patent`: Patent number (7 characters)
 - `automat`: Classification as automation patent after excluding patents (see paper for details).
 - `raw_automat`: Classification as automation patent before excluding patents (see paper for details).
 - `excl`: Excluded patents. We exclude many chemical or pharmaceutical patents in our empirical analysis, see paper for details.
 - `post_yes`: The posterior probability that a patent is an automation patent.
-- `post_no`: The posterior probability that a patent is an automation patent.
+- `post_no`: The posterior probability that a patent is not an automation patent.
 - `hjt`: Hall-Jaffe-Trajtenberg top-level categories
 - `hjt_name`: Hall-Jaffe-Trajtenberg subcategories by name
-- `uspc_primary`: Every patent is assigned one or several USPC numbers. This reports the first USPC number that is written in the patent documents. We use this number to assign Hall-Jaffe-Trajtenberg categories. This is not the number we use to match patents to industries: We use the complete list of patents' IPC numbers for this (not contained in this dataset). 
+- `uspc_primary`: Every patent is assigned one or several USPC (United States Patent Classification) numbers. This reports the first USPC number written in the patent documents. We use this number to assign Hall-Jaffe-Trajtenberg categories. This is not the classification we use to match patents to industries: We use the complete list of patents' IPC (International Patent Classification) numbers for this (not contained in this dataset). 
 - `length_pattext`: Length of patent text as measured by the number of lines in [Google](https://www.google.com/googlebooks/uspto-patents-grants-text.html)'s text files. Number is missing for every last patent in the weekly files.
 - `cts`: Number of citations using Fung Institute data.
 - `cts_wt`: Number of weighted citations. See paper for explanation.
@@ -65,10 +65,10 @@ We distribute all patents probabilistically to industries where they are created
 - `sic1`: First digit of SIC number
 - `sic_div`: Name of SIC division ("Agriculture", "Mining" and so on)
 - `sic`: Four-digit SIC number (1987 SIC classification).
-- `nb`: Our classification of patents as either "automation" or "rest" according to the Naive Bayes algorithm.
+- `nb`: Our classification of patents as either "automation" or non-automation ("rest") according to the Naive Bayes algorithm.
 - `affil`: Two options ("sector of manufacture" and "industry of use")
-- `weight`: Uses either no weights ("none") or weigh patents by the number of their citations.
-- `assignee`: Four options ("other", "foreigners", "governments" and "universities")
+- `weight`: Uses either no weights ("none") or weighs patents by the number of their citations.
+- `assignee`: Four options ("foreigners", "governments", "universities" and "other")
 - `patents`: Number of patent (equivalents).
 
 Be careful when you use this dataset, as some variables provide subsets to the dataset and some offer alternative datasets:
@@ -81,11 +81,11 @@ Includes the number of patents that can be used in a US commuting zones.
 
 - `cz`: Commuting zone
 - `year`: Grant year
-- `type`: Transformation. Either in absolute levels or transformed as described in paper.
-- `assignee`: Group who is assigned patent, as described above. `all` also contains the the other categories `university and public research`, `foreign` and `government`.
+- `type`: Whether the patent measure has been constructed using levels of patents or logs as described in the paper.
+- `assignee`: Group who is assigned the patent, as described above. `all` contains all groups.
 - `weight`: Citation weights as described above.
 - `autopats`: Automation patents
-- `nonautopats`: All other patents, not described as automation patents.
+- `nonautopats`: All other (non-automation) patents.
 
 
 # How to use
