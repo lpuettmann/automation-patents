@@ -166,14 +166,10 @@ cmp %>%
 ggsave("figures/cmp_uspto_counts.pdf", width = 8, height = 8)
 ```
 
-For a 
+You find a high resolution figure of this visualization [here](https://github.com/lpuettmann/automation-patents/tree/master/figures).
 
-
-
-There's nothing special about 2002 to 2004 from which we conclude
-that this "bump" in the data is something that is already contained in the original
-data from the patent office. This might be due to some change in the eligibility 
-criteria for which innovations can be protected with a patent or it could be do
+There's nothing special about 2002 to 2004 and the red line is very flat and
+wiggles around 1. From this, we conclude that this "bump" in the data is something that is already contained in the original data from the patent office. This might be due to some change in the eligibility criteria for which innovations can be protected with a patent or it could be do
 to the way that the USPTO publishes patents or structures their data.
 
 In any way, we recommend to be cautious in interpreting changes around these years
