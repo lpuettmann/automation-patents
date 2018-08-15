@@ -64,7 +64,7 @@ the data, sum over all patent owners:
 df <- ind %>%
   filter(affil == "sector of use",
          weight == "none") %>%
-  group_by(year, sic1, sic1_name, sic, nb) %>% 
+  group_by(year, sic1, sic_div, sic, nb) %>% 
   summarise(patents = sum(patents)) 
 ```
 
@@ -92,7 +92,7 @@ ggplot(df, aes(year, sh, group = sic)) +
         panel.grid.minor = element_blank(),
         panel.border = element_blank(),
         panel.background = element_blank()) +
-  facet_wrap(~sic1_name, ncol = 3)
+  facet_wrap(~sic_div, ncol = 3)
 ```
 
 There are many more subindustries in *Manufacturing* and *Services* than in *Finance*
@@ -108,7 +108,69 @@ files, but that does not seem to be the case.
 
 To check whether this is a problem, we scraped data from the USPTO website
 and compared our aggregate counts per year and technological class with those
-in our dataset. There's nothing special about 2002 to 2004 from which we conclude
+in our dataset. You find the codes [here](https://github.com/lpuettmann/scrape-uspto) and
+the original website with the data [here](https://www.uspto.gov/web/offices/ac/ido/oeip/taf/cbcby.htm).
+
+Load the scraped comparison dataset:
+
+```{r scrape-uspto}
+uspto <- read_csv("https://github.com/lpuettmann/scrape-uspto/raw/master/uspto_counts.csv")
+```
+
+These counts run from 1995 to .
+
+```{r calc-comparison-dataset}
+cmp <- patents %>%
+  filter(year >= 1995) %>% 
+  group_by(year, hjt, hjt_name, hjt_cln) %>%
+  summarise(my_pts = n()) %>%
+  rename(yr = year,
+         hjt_num = hjt_cln) %>%
+  full_join(uspto %>%
+              group_by(yr, hjt_num, counts) %>%
+              summarise(uspc_pts = sum(patents)) %>%
+              ungroup(),
+            by = c("yr", "hjt_num")) %>% 
+  arrange(counts, yr, hjt_num) %>% 
+  drop_na(hjt_name)
+```
+
+Calculate the ratio between our counts and the official ones and visualize:
+
+```{r plot-comp}
+annot_bump <- tribble(
+  ~xmin, ~xmax,
+  2002, 2004)
+
+cmp %>% 
+  mutate(rt = uspc_pts / my_pts,
+         counts = ifelse(counts == "no_dupl", "no duplicates", counts)) %>% 
+  ggplot() +
+  geom_rect(aes(xmin = xmin, xmax = xmax, ymin = -Inf, ymax = Inf),
+            data = annot_bump, fill = "#f4a582", alpha = 0.4,
+            inherit.aes = FALSE) +
+  geom_hline(yintercept = 0, size = 0.5, color = "grey80") +
+  geom_hline(yintercept = 1, size = 0.3, color = "grey80") +
+  geom_line(aes(yr, rt, group = counts, color = counts), alpha = 0.8) +
+  geom_point(aes(yr, rt, color = counts), alpha = 0.8, size = 1.1,
+             stroke = 0) +
+  facet_wrap(~hjt_name, scales = "free_y", ncol = 5) +
+  theme_minimal() +
+  theme(legend.position = "bottom") +
+  labs(x = NULL, y = "ratio", title = "Patent numbers: USPTO vs. our dataset",
+       subtitle = '1995-2014, annually. The potentially problematic "bump": 2002, 2003 and 2004.',
+       caption = paste0("Source: Our dataset and the official USPTO numbers from:\n", 
+                        "https://www.uspto.gov/web/offices/ac/ido/oeip/taf/cbcby.htm"),
+       color = "Counting of patents\n in USPTO data:   ")
+
+ggsave("figures/cmp_uspto_counts.pdf", width = 8, height = 8)
+```
+
+For a 
+
+
+
+There's nothing special about 2002 to 2004 from which we conclude
 that this "bump" in the data is something that is already contained in the original
 data from the patent office. This might be due to some change in the eligibility 
 criteria for which innovations can be protected with a patent or it could be do

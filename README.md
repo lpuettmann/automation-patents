@@ -115,7 +115,7 @@ Our data and our codes are under the [MIT license](https://github.com/lpuettmann
 
 # Contributing
 
-If you find irregularities or bugs, please open an issue here or send us an email.
+If you find irregularities or bugs, please open an issue here.
 
 # References
 
