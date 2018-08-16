@@ -48,8 +48,9 @@ The assignee and citation data is from the [Fung Institute](https://github.com/f
 - `excl`: Excluded patents. We exclude many chemical or pharmaceutical patents in our empirical analysis, see paper for details.
 - `post_yes`: The posterior probability that a patent is an automation patent.
 - `post_no`: The posterior probability that a patent is not an automation patent.
-- `hjt`: Hall-Jaffe-Trajtenberg top-level categories
-- `hjt_name`: Hall-Jaffe-Trajtenberg subcategories by name
+- `hjt1`: Hall-Jaffe-Trajtenberg top-level categories
+- `hjt2`: Hall-Jaffe-Trajtenberg subcategories by name
+- `hjt2_num`: Hall-Jaffe-Trajtenberg subcategories by number
 - `uspc_primary`: Every patent is assigned one or several USPC (United States Patent Classification) numbers. This reports the first USPC number written in the patent documents. We use this number to assign Hall-Jaffe-Trajtenberg categories. This is not the classification we use to match patents to industries: We use the complete list of patents' IPC (International Patent Classification) numbers for this (not contained in this dataset). 
 - `length_pattext`: Length of patent text as measured by the number of lines in [Google](https://www.google.com/googlebooks/uspto-patents-grants-text.html)'s text files. Number is missing for every last patent in the weekly files.
 - `cts`: Number of citations using Fung Institute data.

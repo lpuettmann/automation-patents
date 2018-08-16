@@ -13,14 +13,14 @@ Load some packages:
 library(tidyverse)
 ```
 
-    ## ── Attaching packages ─────────────────── tidyverse 1.2.1 ──
+    ## ── Attaching packages ─────────── tidyverse 1.2.1 ──
 
     ## ✔ ggplot2 2.2.1.9000     ✔ purrr   0.2.5     
     ## ✔ tibble  1.4.2          ✔ dplyr   0.7.5     
     ## ✔ tidyr   0.8.1          ✔ stringr 1.3.1     
     ## ✔ readr   1.1.1          ✔ forcats 0.3.0
 
-    ## ── Conflicts ────────────────────── tidyverse_conflicts() ──
+    ## ── Conflicts ────────────── tidyverse_conflicts() ──
     ## ✖ dplyr::filter() masks stats::filter()
     ## ✖ dplyr::lag()    masks stats::lag()
 
@@ -28,7 +28,7 @@ Get the two patent datasets and combine them:
 
 ``` r
 hjt <- patents %>% 
-  group_by(year, hjt, automat) %>% 
+  group_by(year, hjt1, automat) %>% 
   summarise(patents = n()) %>% 
   mutate(classification = case_when(
     automat == 1 ~ "automation",
@@ -36,7 +36,7 @@ hjt <- patents %>%
 
 ggplot(hjt, aes(year, patents, fill = classification)) +
   geom_col(width = 0.5) +
-  facet_wrap(~hjt, scales = "free_y") +
+  facet_wrap(~hjt1, scales = "free_y") +
   theme_minimal() +
   scale_y_continuous(labels=function(x) x / 1000) +
   labs(y = "patents (in 1000s)", x = NULL, subtitle = "1976-2014, annually", 
@@ -65,11 +65,11 @@ ind <- read_csv("data/industry_data.zip")
     ##   nb = col_character(),
     ##   affil = col_character(),
     ##   weight = col_character(),
-    ##   owner = col_character(),
+    ##   assignee = col_character(),
     ##   patents = col_double()
     ## )
 
-Pick the versions of the data we're interested in: 1) where are patents used (not invented) and 2) patents not weighted by the number of their citations. The data comes split into bins for individual patent owners. So to get a first look at the data, sum over all patent owners:
+Pick the versions of the data we're interested in: 1) where are patents used (not invented) and 2) patents not weighted by the number of their citations. The data comes split into bins for individual patent assignees. So to get a first look at the data, sum over all patent assignees:
 
 ``` r
 df <- ind %>%
@@ -151,17 +151,17 @@ These counts run from 1995 to .
 ``` r
 cmp <- patents %>%
   filter(year >= 1995) %>% 
-  group_by(year, hjt, hjt_name, hjt_cln) %>%
+  group_by(year, hjt1, hjt2, hjt2_num) %>%
   summarise(my_pts = n()) %>%
-  rename(yr = year,
-         hjt_num = hjt_cln) %>%
+  rename(yr = year) %>%
   full_join(uspto %>%
-              group_by(yr, hjt_num, counts) %>%
+              rename(hjt2_num = hjt_num) %>% 
+              group_by(yr, hjt2_num, counts) %>%
               summarise(uspc_pts = sum(patents)) %>%
               ungroup(),
-            by = c("yr", "hjt_num")) %>% 
-  arrange(counts, yr, hjt_num) %>% 
-  drop_na(hjt_name)
+            by = c("yr", "hjt2_num")) %>% 
+  arrange(counts, yr, hjt2_num) %>% 
+  drop_na(hjt2_num)
 ```
 
 Calculate the ratio between our counts and the official ones and visualize:
@@ -183,7 +183,7 @@ cmp %>%
   geom_line(aes(yr, rt, group = counts, color = counts), alpha = 0.8) +
   geom_point(aes(yr, rt, color = counts), alpha = 0.8, size = 1.1,
              stroke = 0) +
-  facet_wrap(~hjt_name, scales = "free_y", ncol = 5) +
+  facet_wrap(~hjt2, scales = "free_y", ncol = 5) +
   theme_minimal() +
   theme(legend.position = "bottom") +
   labs(x = NULL, y = "ratio", title = "Patent numbers: USPTO vs. our dataset",
@@ -193,9 +193,9 @@ cmp %>%
        color = "Counting of patents\n in USPTO data:   ")
 ```
 
-    ## Warning: Removed 37 rows containing missing values (geom_path).
+    ## Warning: Removed 180 rows containing missing values (geom_path).
 
-    ## Warning: Removed 37 rows containing missing values (geom_point).
+    ## Warning: Removed 180 rows containing missing values (geom_point).
 
 ![](explore_files/figure-markdown_github/plot-comp-1.png)
 
@@ -203,9 +203,9 @@ cmp %>%
 ggsave("figures/cmp_uspto_counts.pdf", width = 8, height = 8)
 ```
 
-    ## Warning: Removed 37 rows containing missing values (geom_path).
+    ## Warning: Removed 180 rows containing missing values (geom_path).
 
-    ## Warning: Removed 37 rows containing missing values (geom_point).
+    ## Warning: Removed 180 rows containing missing values (geom_point).
 
 You find a high resolution figure of this visualization [here](https://github.com/lpuettmann/automation-patents/tree/master/figures).
 
