@@ -117,7 +117,7 @@ Load the scraped comparison dataset:
 uspto <- read_csv("https://github.com/lpuettmann/scrape-uspto/raw/master/uspto_counts.csv")
 ```
 
-These counts run from 1995 to .
+These counts run from 1995 to 2914.
 
 ```{r calc-comparison-dataset}
 cmp <- patents %>%
