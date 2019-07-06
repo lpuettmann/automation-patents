@@ -13,18 +13,62 @@ Load some packages:
 library(tidyverse)
 ```
 
-    ## ── Attaching packages ─────────── tidyverse 1.2.1 ──
+    ## ── Attaching packages ───────────────
 
-    ## ✔ ggplot2 2.2.1.9000     ✔ purrr   0.2.5     
-    ## ✔ tibble  1.4.2          ✔ dplyr   0.7.5     
-    ## ✔ tidyr   0.8.1          ✔ stringr 1.3.1     
-    ## ✔ readr   1.1.1          ✔ forcats 0.3.0
+    ## ✔ ggplot2 3.1.1     ✔ purrr   0.3.2
+    ## ✔ tibble  2.1.1     ✔ dplyr   0.8.1
+    ## ✔ tidyr   0.8.3     ✔ stringr 1.4.0
+    ## ✔ readr   1.3.1     ✔ forcats 0.4.0
 
-    ## ── Conflicts ────────────── tidyverse_conflicts() ──
+    ## ── Conflicts ────────────────────────
     ## ✖ dplyr::filter() masks stats::filter()
     ## ✖ dplyr::lag()    masks stats::lag()
 
 Get the two patent datasets and combine them:
+
+``` r
+patents <- read_csv("data/patents1.zip") %>%
+  bind_rows(read_csv("data/patents2.zip"))
+```
+
+    ## Parsed with column specification:
+    ## cols(
+    ##   year = col_double(),
+    ##   week = col_double(),
+    ##   patent = col_double(),
+    ##   automat = col_double(),
+    ##   raw_automat = col_double(),
+    ##   excl = col_double(),
+    ##   post_yes = col_double(),
+    ##   post_no = col_double(),
+    ##   hjt1 = col_character(),
+    ##   hjt2 = col_character(),
+    ##   hjt2_num = col_double(),
+    ##   uspc_primary = col_character(),
+    ##   length_pattext = col_double(),
+    ##   cts = col_double(),
+    ##   cts_wt = col_double(),
+    ##   assignee = col_character()
+    ## )
+    ## Parsed with column specification:
+    ## cols(
+    ##   year = col_double(),
+    ##   week = col_double(),
+    ##   patent = col_double(),
+    ##   automat = col_double(),
+    ##   raw_automat = col_double(),
+    ##   excl = col_double(),
+    ##   post_yes = col_double(),
+    ##   post_no = col_double(),
+    ##   hjt1 = col_character(),
+    ##   hjt2 = col_character(),
+    ##   hjt2_num = col_double(),
+    ##   uspc_primary = col_character(),
+    ##   length_pattext = col_double(),
+    ##   cts = col_double(),
+    ##   cts_wt = col_double(),
+    ##   assignee = col_character()
+    ## )
 
 ``` r
 hjt <- patents %>% 
@@ -58,10 +102,10 @@ ind <- read_csv("data/industry_data.zip")
 
     ## Parsed with column specification:
     ## cols(
-    ##   year = col_integer(),
-    ##   sic1 = col_integer(),
+    ##   year = col_double(),
+    ##   sic1 = col_double(),
     ##   sic_div = col_character(),
-    ##   sic = col_integer(),
+    ##   sic = col_double(),
     ##   nb = col_character(),
     ##   affil = col_character(),
     ##   weight = col_character(),
@@ -130,23 +174,15 @@ uspto <- read_csv("https://github.com/lpuettmann/scrape-uspto/raw/master/uspto_c
     ##   class = col_character(),
     ##   class_title = col_character(),
     ##   counts = col_character(),
-    ##   yr = col_integer(),
-    ##   patents = col_integer(),
-    ##   uspc = col_integer(),
+    ##   yr = col_double(),
+    ##   patents = col_double(),
+    ##   uspc = col_double(),
     ##   ctg = col_character(),
-    ##   hjt_num = col_integer(),
+    ##   hjt_num = col_double(),
     ##   hjt = col_character()
     ## )
 
-    ## Warning in rbind(names(probs), probs_f): number of columns of result is not
-    ## a multiple of vector length (arg 1)
-
-    ## Warning: 936 parsing failures.
-    ## row # A tibble: 5 x 5 col     row col   expected               actual file                           expected   <int> <chr> <chr>                  <chr>  <chr>                          actual 1  4681 yr    no trailing characters e3     'https://github.com/lpuettman… file 2  4682 yr    no trailing characters e3     'https://github.com/lpuettman… row 3  4683 yr    no trailing characters e3     'https://github.com/lpuettman… col 4  4684 yr    no trailing characters e3     'https://github.com/lpuettman… expected 5  4685 yr    no trailing characters e3     'https://github.com/lpuettman…
-    ## ... ................. ... .......................................................................... ........ .......................................................................... ...... .......................................................................... .... .......................................................................... ... .......................................................................... ... .......................................................................... ........ ..........................................................................
-    ## See problems(...) for more details.
-
-These counts run from 1995 to .
+These counts run from 1995 to 2914.
 
 ``` r
 cmp <- patents %>%
@@ -193,9 +229,9 @@ cmp %>%
        color = "Counting of patents\n in USPTO data:   ")
 ```
 
-    ## Warning: Removed 180 rows containing missing values (geom_path).
+    ## Warning: Removed 72 rows containing missing values (geom_path).
 
-    ## Warning: Removed 180 rows containing missing values (geom_point).
+    ## Warning: Removed 72 rows containing missing values (geom_point).
 
 ![](explore_files/figure-markdown_github/plot-comp-1.png)
 
@@ -203,12 +239,59 @@ cmp %>%
 ggsave("figures/cmp_uspto_counts.pdf", width = 8, height = 8)
 ```
 
-    ## Warning: Removed 180 rows containing missing values (geom_path).
+    ## Warning: Removed 72 rows containing missing values (geom_path).
 
-    ## Warning: Removed 180 rows containing missing values (geom_point).
+    ## Warning: Removed 72 rows containing missing values (geom_point).
 
 You find a high resolution figure of this visualization [here](https://github.com/lpuettmann/automation-patents/tree/master/figures).
 
 There's nothing special about 2002 to 2004 and the red line is very flat and wiggles around 1. From this, we conclude that this "bump" in the data is something that is already contained in the original data from the patent office. This might be due to some change in the eligibility criteria for which innovations can be protected with a patent or it could be do to the way that the USPTO publishes patents or structures their data.
 
 In any way, we recommend to be cautious in interpreting changes around these years as reflecting underlying technological trends. In our own empirical analysis, we use five year moving sums of patents.
+
+Aggregate statistics
+====================
+
+Let's also look at some aggregate statistics of patents over time.
+
+``` r
+aggr_patents <- ind %>% 
+  filter(affil == "sector of use",
+         weight == "none") %>% 
+  group_by(year, nb) %>% 
+  summarise(patents = sum(patents))
+```
+
+Plot the number of patents by year by category.
+
+``` r
+ggplot(aggr_patents, aes(year, patents, color = nb)) +
+  geom_line() + 
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Total number of patents by category and year",
+       subtitle = "1976-2014")
+```
+
+![](explore_files/figure-markdown_github/unnamed-chunk-2-1.png)
+
+Calculate how the share of automation patents has changed over time:
+
+``` r
+aggr_stats <- aggr_patents %>% 
+  spread(nb, patents) %>% 
+  mutate(share_autom = automation / (automation + `chemical-pharma` + rest))
+
+write_csv(aggr_stats, "out_data/aggr_stats.csv")
+```
+
+``` r
+ggplot(aggr_stats, aes(year, share_autom)) +
+  geom_line() + 
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Share of automation patents",
+       subtitle = "1976-2014")
+```
+
+![](explore_files/figure-markdown_github/unnamed-chunk-4-1.png)

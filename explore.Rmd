@@ -23,7 +23,7 @@ library(tidyverse)
 
 Get the two patent datasets and combine them:
 
-```{r load-patents, echo = FALSE, warning=FALSE, message=FALSE}
+```{r load-patents}
 patents <- read_csv("data/patents1.zip") %>%
   bind_rows(read_csv("data/patents2.zip"))
 ```
@@ -177,12 +177,47 @@ as reflecting underlying technological trends. In our own empirical analysis, we
 use five year moving sums of patents.
 
 
+# Aggregate statistics
 
+Let's also look at some aggregate statistics of patents over time.
 
+```{r}
+aggr_patents <- ind %>% 
+  filter(affil == "sector of use",
+         weight == "none") %>% 
+  group_by(year, nb) %>% 
+  summarise(patents = sum(patents))
+```
 
+Plot the number of patents by year by category.
 
+```{r}
+ggplot(aggr_patents, aes(year, patents, color = nb)) +
+  geom_line() + 
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Total number of patents by category and year",
+       subtitle = "1976-2014")
+```
 
+Calculate how the share of automation patents has changed over time:
 
+```{r}
+aggr_stats <- aggr_patents %>% 
+  spread(nb, patents) %>% 
+  mutate(share_autom = automation / (automation + `chemical-pharma` + rest))
+
+write_csv(aggr_stats, "out_data/aggr_stats.csv")
+```
+
+```{r}
+ggplot(aggr_stats, aes(year, share_autom)) +
+  geom_line() + 
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Share of automation patents",
+       subtitle = "1976-2014")
+```
 
 
 
