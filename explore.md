@@ -13,14 +13,14 @@ Load some packages:
 library(tidyverse)
 ```
 
-    ## ── Attaching packages ───────────────
+    ## ── Attaching packages ──────────────────────────── tidyverse 1.2.1 ──
 
     ## ✔ ggplot2 3.1.1     ✔ purrr   0.3.2
-    ## ✔ tibble  2.1.1     ✔ dplyr   0.8.1
+    ## ✔ tibble  2.1.1     ✔ dplyr   0.8.3
     ## ✔ tidyr   0.8.3     ✔ stringr 1.4.0
     ## ✔ readr   1.3.1     ✔ forcats 0.4.0
 
-    ## ── Conflicts ────────────────────────
+    ## ── Conflicts ─────────────────────────────── tidyverse_conflicts() ──
     ## ✖ dplyr::filter() masks stats::filter()
     ## ✖ dplyr::lag()    masks stats::lag()
 
@@ -255,19 +255,19 @@ Aggregate statistics
 Let's also look at some aggregate statistics of patents over time.
 
 ``` r
-aggr_patents <- ind %>% 
-  filter(affil == "sector of use",
-         weight == "none") %>% 
-  group_by(year, nb) %>% 
-  summarise(patents = sum(patents))
+aggr_patents <- patents %>% 
+  group_by(year, automat) %>% 
+  tally() %>% 
+  mutate(classification = case_when(
+    automat == 1 ~ "automation",
+    automat == 0 ~ "rest"))
 ```
 
 Plot the number of patents by year by category.
 
 ``` r
-ggplot(aggr_patents, aes(year, patents, color = nb)) +
-  geom_line() + 
-  geom_point() +
+ggplot(aggr_patents, aes(year, n, fill = classification)) +
+  geom_col() + 
   theme_minimal() +
   labs(title = "Total number of patents by category and year",
        subtitle = "1976-2014")
@@ -279,11 +279,31 @@ Calculate how the share of automation patents has changed over time:
 
 ``` r
 aggr_stats <- aggr_patents %>% 
-  spread(nb, patents) %>% 
-  mutate(share_autom = automation / (automation + `chemical-pharma` + rest))
+  select(-automat) %>% 
+  spread(classification, n) %>% 
+  mutate(total = automation + rest,
+         share_autom = automation / total)
 
 write_csv(aggr_stats, "out_data/aggr_stats.csv")
+
+aggr_stats
 ```
+
+    ## # A tibble: 39 x 5
+    ## # Groups:   year [39]
+    ##     year automation  rest total share_autom
+    ##    <dbl>      <int> <int> <int>       <dbl>
+    ##  1  1976      16279 53915 70194       0.232
+    ##  2  1977      15433 49782 65215       0.237
+    ##  3  1978      15412 50675 66087       0.233
+    ##  4  1979      11721 37119 48840       0.240
+    ##  5  1980      14937 46878 61815       0.242
+    ##  6  1981      15885 49885 65770       0.242
+    ##  7  1982      15092 42785 57877       0.261
+    ##  8  1983      14546 42317 56863       0.256
+    ##  9  1984      17665 49547 67212       0.263
+    ## 10  1985      19415 52253 71668       0.271
+    ## # … with 29 more rows
 
 ``` r
 ggplot(aggr_stats, aes(year, share_autom)) +

@@ -182,19 +182,19 @@ use five year moving sums of patents.
 Let's also look at some aggregate statistics of patents over time.
 
 ```{r}
-aggr_patents <- ind %>% 
-  filter(affil == "sector of use",
-         weight == "none") %>% 
-  group_by(year, nb) %>% 
-  summarise(patents = sum(patents))
+aggr_patents <- patents %>% 
+  group_by(year, automat) %>% 
+  tally() %>% 
+  mutate(classification = case_when(
+    automat == 1 ~ "automation",
+    automat == 0 ~ "rest"))
 ```
 
 Plot the number of patents by year by category.
 
 ```{r}
-ggplot(aggr_patents, aes(year, patents, color = nb)) +
-  geom_line() + 
-  geom_point() +
+ggplot(aggr_patents, aes(year, n, fill = classification)) +
+  geom_col() + 
   theme_minimal() +
   labs(title = "Total number of patents by category and year",
        subtitle = "1976-2014")
@@ -204,10 +204,14 @@ Calculate how the share of automation patents has changed over time:
 
 ```{r}
 aggr_stats <- aggr_patents %>% 
-  spread(nb, patents) %>% 
-  mutate(share_autom = automation / (automation + `chemical-pharma` + rest))
+  select(-automat) %>% 
+  spread(classification, n) %>% 
+  mutate(total = automation + rest,
+         share_autom = automation / total)
 
 write_csv(aggr_stats, "out_data/aggr_stats.csv")
+
+aggr_stats
 ```
 
 ```{r}
