@@ -36,9 +36,7 @@ All datasets cover the period 1976 to 2014 and the regional coverage are the Uni
 
 ## 1. Patent level dataset
 
-Includes all US utility patents and contains the information for every patent if we classify it as automation or not. To construct some variables (`cts`, `cts_wt` and `assignee`)
-
-The assignee and citation data is from the [Fung Institute](https://github.com/funginstitute/downloads) and stops in 2010.
+Includes all US utility patents and contains the information for every patent if we classify it as automation or not. To construct some variables (those containing `cts`, `cts_wt` and `assignee`), we use the assignee and citation data from the [Fung Institute](https://github.com/funginstitute/downloads) which ends in 2010.
 
 - `year`: Grant year.
 - `week`: Identifies the weekly files that the patent was published in.
