@@ -58,14 +58,14 @@ Includes all US utility patents and contains the information for every patent if
 
 ## 2. Industry level dataset
 
-We distribute all patents probabilistically to industries where they are created ("sector of manufacture") and where they are likely to be used ("industry of use"). See paper and the links above for explanations. Industries are defined according to [SIC 1987](https://www.osha.gov/pls/imis/sic_manual.html).
+We distribute all patents probabilistically to industries where they are created ("industry of manufacture") and where they are likely to be used ("sector of use"). See paper and the links above for explanations. Industries are defined according to [SIC 1987](https://www.osha.gov/pls/imis/sic_manual.html).
 
 - `year`: Year
 - `sic1`: First digit of SIC number
 - `sic_div`: Name of SIC division ("Agriculture", "Mining" and so on)
 - `sic`: Four-digit SIC number (1987 SIC classification).
 - `nb`: Our classification of patents as either "automation" or non-automation ("rest") according to the Naive Bayes algorithm.
-- `affil`: Two options ("sector of manufacture" and "industry of use")
+- `affil`: Two options ("industry of manufacture" and "sector of use")
 - `weight`: Uses either no weights ("none") or weighs patents by the number of their citations.
 - `assignee`: Four options ("foreigners", "governments", "universities" and "other")
 - `patents`: Number of patent (equivalents).
