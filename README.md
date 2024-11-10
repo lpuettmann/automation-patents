@@ -2,7 +2,7 @@
 
 This repositories makes available the data produced by our paper: 
 
->Mann, Katja and Lukas Püttmann (2017). "Benign Effects of Automation: New Evidence from Patent Texts". Unpublished manuscript.
+>Mann, Katja and Lukas Püttmann (2021). "Benign Effects of Automation: New Evidence from Patent Texts". *The Review of Economics and Statistics*
 
 Please cite us if you use our data.
 
