@@ -10,8 +10,8 @@ Links:
 
 - [Working paper](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2959584)
 - [VoxEU column](https://voxeu.org/article/benign-effects-automation-new-evidence)
-- [Blog post](http://lukaspuettmann.com//2017/09/22/automation-patents-paper/)
-
+- [Blog post](http://lukaspuettmann.com//2017/09/22/automation-patents-paper/) ([static](https://github.com/lpuettmann/automation-patents/blob/master/pdf/Our%20Blog%20Post%20on%20Paper%20%22Benign%20Effects%20...%22.pdf))
+- [Manual coding guidelines](https://github.com/lpuettmann/automation-patents/blob/master/pdf/manual_coding_guidelines.pdf)
 # Files
 
 We keep the following datasets here:
