@@ -12,6 +12,9 @@ Links:
 - [VoxEU column](https://voxeu.org/article/benign-effects-automation-new-evidence)
 - [Blog post](http://lukaspuettmann.com//2017/09/22/automation-patents-paper/) ([static](https://github.com/lpuettmann/automation-patents/blob/master/pdf/Our%20Blog%20Post%20on%20Paper%20%22Benign%20Effects%20...%22.pdf))
 - [Manual coding guidelines](https://github.com/lpuettmann/automation-patents/blob/master/pdf/manual_coding_guidelines.pdf)
+
+![GIF Map of automation patents over time](figures/automation-map.gif)
+
 # Files
 
 We keep the following datasets here:
