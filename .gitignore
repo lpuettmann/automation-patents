@@ -1,3 +1,6 @@
+*.pdf
+!pdf/manual_coding_guidelines.pdf
+!pdf/Our Blog Post on Paper "Benign Effects ...".pdf
 *.R
 *.do
 *.Rproj
@@ -22,7 +25,6 @@
 *.pptx
 *.eps
 .DS_Store
-*.pdf
 *-blx.bib
 *.bib.bak
 *.asv
